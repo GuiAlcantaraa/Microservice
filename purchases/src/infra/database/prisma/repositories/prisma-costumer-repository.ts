@@ -1,5 +1,5 @@
-import { CustomersRepository } from "../../../repositories/customers-repository";
-import { Customer } from "../../../domain/customer";
+import { CustomersRepository } from "../../../../repositories/customers-repository";
+import { Customer } from "../../../../domain/customer";
 import { prisma } from "../prisma";
 
 export class PrismaCustomersRepository implements CustomersRepository {

@@ -1,5 +1,5 @@
-import { PurchasesRepository } from "../../../repositories/purchases-repository";
-import { Purchase } from "../../../domain/purchase";
+import { PurchasesRepository } from "../../../../repositories/purchases-repository";
+import { Purchase } from "../../../../domain/purchase";
 import { prisma } from "../prisma";
 
 export class PrismaPurchasesRepository implements PurchasesRepository {

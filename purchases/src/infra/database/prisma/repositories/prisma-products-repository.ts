@@ -1,5 +1,5 @@
-import { ProductsRepository } from "../../../repositories/products-repository";
-import { Product } from "../../../domain/product";
+import { ProductsRepository } from "../../../../repositories/products-repository";
+import { Product } from "../../../../domain/product";
 import { prisma } from "../prisma";
 
 export class PrismaProductsRepository implements ProductsRepository {

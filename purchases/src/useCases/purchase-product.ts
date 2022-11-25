@@ -4,6 +4,8 @@ import { Purchase } from '../domain/purchase';
 import { CustomersRepository } from '../repositories/customers-repository'
 import { PurchasesRepository } from '../repositories/purchases-repository'
 import { ProductsRepository } from '../repositories/products-repository'
+import { MessagingAdapter } from "../repositories/messaging-adapter";
+
 
 interface PurchaseProductRequest {
     name: string;
@@ -17,6 +19,9 @@ export class PurchaseProduct {
         private customersRepository: CustomersRepository,
         private productsRepository: ProductsRepository,
         private purchasesRepository: PurchasesRepository,
+
+        private messagingAdapter: MessagingAdapter,
+
     ) { }
 
     async execute({ name, email, productId }: PurchaseProductRequest): Promise<void> {
@@ -44,20 +49,18 @@ export class PurchaseProduct {
         await this.purchasesRepository.create(purchase);
 
         console.log('compra criada')
-        /**
-         * This SHOULD NOT be here
-         */
 
-        // await this.messagingAdapter.sendMessage('purchases.new-purchase', {
-        //     product: {
-        //         id: product.id,
-        //         title: product.title,
-        //     },
-        //     customer: {
-        //         name: customer.name,
-        //         email: customer.email,
-        //     },
-        //     purchaseId: purchase.id,
-        // })
+
+        await this.messagingAdapter.sendMessage('purchases.new-purchase', {
+            product: {
+                id: product.id,
+                title: product.title,
+            },
+            customer: {
+                name: customer.name,
+                email: customer.email,
+            },
+            purchaseId: purchase.id,
+        })
     }
 }

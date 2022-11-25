@@ -3,9 +3,11 @@ import cors from '@fastify/cors';
 import { z } from 'zod';
 import { PrismaClient } from '@prisma/client';
 
-import { PrismaCustomersRepository } from '../src/database/prisma/repositories/prisma-costumer-repository'
-import { PrismaProductsRepository } from "./database/prisma/repositories/prisma-products-repository";
-import { PrismaPurchasesRepository } from "./database/prisma/repositories/prisma-purchases-repository";
+import { PrismaCustomersRepository } from './infra/database/prisma/repositories/prisma-costumer-repository'
+import { PrismaProductsRepository } from "./infra/database/prisma/repositories/prisma-products-repository";
+import { PrismaPurchasesRepository } from "./infra/database/prisma/repositories/prisma-purchases-repository";
+
+import { KafkaMessagingAdapter } from '../src/infra/messaging/kafka/adapters/kafka-messaging-adapter';
 import { PurchaseProduct } from "./useCases/purchase-product";
 
 
@@ -41,13 +43,14 @@ async function bootstrap() {
         const prismaCustomersRepository = new PrismaCustomersRepository();
         const prismaProductsRepository = new PrismaProductsRepository();
         const prismaPurchasesRepository = new PrismaPurchasesRepository();
-
+        const kafkaMessagingAdapter = new KafkaMessagingAdapter()
 
 
         const purchaseProductUseCase = new PurchaseProduct(
             prismaCustomersRepository,
             prismaProductsRepository,
-            prismaPurchasesRepository
+            prismaPurchasesRepository,
+            kafkaMessagingAdapter
         )
 
 
